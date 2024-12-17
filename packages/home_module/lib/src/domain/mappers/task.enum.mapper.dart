@@ -27,4 +27,13 @@ class TaskStatusMapper {
         return 'completed';
     }
   }
+
+  static String fromEnumtoLiteralString(TaskStatus value) {
+    switch (value) {
+      case TaskStatus.pending:
+        return 'Pendiente';
+      default:
+        return 'Completado';
+    }
+  }
 }
