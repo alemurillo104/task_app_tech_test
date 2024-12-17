@@ -124,26 +124,58 @@ class _TasksPageState extends State<TasksPage> {
                                   },
                                 );
                               case TasksStatus.filterMode:
-                                return ListView.separated(
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(height: 10);
-                                  },
-                                  itemCount: state.filteredtasks.length,
-                                  itemBuilder: (context, index) {
-                                    return TaskItemWidget(
-                                      task: state.filteredtasks[index],
-                                      onTap: () {
-                                        Modular.to.pushNamed(
-                                          HomeDestination.taskDetail,
-                                          arguments: {
-                                            'task': state.filteredtasks[index],
-                                            'deleteTaskBloc': deleteTaskBloc,
-                                            'updateTaskBloc': updateTaskBloc,
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Filtro aplicado: ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(
+                                          TaskStatusMapper
+                                              .fromEnumtoLiteralString(
+                                            state.currentTaskStatusFiltered!,
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Expanded(
+                                      child: ListView.separated(
+                                        separatorBuilder: (context, index) {
+                                          return const SizedBox(height: 10);
+                                        },
+                                        itemCount: state.filteredtasks.length,
+                                        itemBuilder: (context, index) {
+                                          return TaskItemWidget(
+                                            task: state.filteredtasks[index],
+                                            onTap: () {
+                                              Modular.to.pushNamed(
+                                                HomeDestination.taskDetail,
+                                                arguments: {
+                                                  'task': state
+                                                      .filteredtasks[index],
+                                                  'deleteTaskBloc':
+                                                      deleteTaskBloc,
+                                                  'updateTaskBloc':
+                                                      updateTaskBloc,
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 );
                               case TasksStatus.failure:
                                 return const Text('Error');
