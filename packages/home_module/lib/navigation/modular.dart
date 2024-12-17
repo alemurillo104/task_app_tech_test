@@ -4,6 +4,7 @@ import '../src/presentation/pages/tasks.page.dart';
 import '../src/data/repositories/task.repository.dart';
 import '../src/presentation/pages/task_detail.page.dart';
 import '../src/presentation/blocs/tasks/tasks_bloc.dart';
+import '../src/presentation/blocs/addTask/add_task_bloc.dart';
 import '../src/presentation/blocs/updateTask/update_task_bloc.dart';
 import '../src/presentation/blocs/deleteTask/delete_task_bloc.dart';
 
@@ -15,6 +16,7 @@ class HomeModularModule extends Module {
     i.add(TasksBloc.new);
     i.add(DeleteTaskBloc.new);
     i.add(UpdateTaskBloc.new);
+    i.add(AddTaskBloc.new);
   }
 
   @override
