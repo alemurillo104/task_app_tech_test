@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:common_dependency_module/common_dependency_module.dart';
+import 'package:task_app_tech_test/firebase_options.dart';
 import 'src/core/navigation/modular.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     ModularApp(
       module: CoreModularModule(),
