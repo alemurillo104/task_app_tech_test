@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:common_dependency_module/common_dependency_module.dart';
 import '../blocs/tasks/tasks_bloc.dart';
 import '../widgets/task_item.widget.dart';
+import '../blocs/addTask/add_task_bloc.dart';
 import '../../../navigation/navigation.dart';
 import '../blocs/updateTask/update_task_bloc.dart';
 import '../blocs/deleteTask/delete_task_bloc.dart';
+import '../widgets/add_task_bottom_sheet.widget.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({super.key});
@@ -16,6 +18,7 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   final deleteTaskBloc = Modular.get<DeleteTaskBloc>();
   final updateTaskBloc = Modular.get<UpdateTaskBloc>();
+  final addTaskBloc = Modular.get<AddTaskBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,9 @@ class _TasksPageState extends State<TasksPage> {
         ),
         BlocProvider(
           create: (context) => updateTaskBloc,
+        ),
+        BlocProvider(
+          create: (context) => addTaskBloc,
         ),
       ],
       child: Scaffold(
@@ -60,6 +66,17 @@ class _TasksPageState extends State<TasksPage> {
               listener: (context, state) {
                 switch (state.status) {
                   case UpdateTaskStatus.success:
+                    context.read<TasksBloc>().add(const TasksFetched());
+                    break;
+                  default:
+                }
+              },
+            ),
+            BlocListener<AddTaskBloc, AddTaskState>(
+              bloc: addTaskBloc,
+              listener: (context, state) {
+                switch (state.status) {
+                  case AddTaskStatus.success:
                     context.read<TasksBloc>().add(const TasksFetched());
                     break;
                   default:
@@ -111,7 +128,38 @@ class _TasksPageState extends State<TasksPage> {
                             }
                           },
                         ),
-                      )
+                      ),
+                      const SizedBox(height: 12),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return AddTaskBottomSheetWidget(
+                                addTaskBloc: addTaskBloc,
+                                
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.blue.shade100,
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add_circle_outline),
+                              SizedBox(width: 8),
+                              Text('Agregar nueva tarea'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 35),
                     ],
                   ),
                 ),
