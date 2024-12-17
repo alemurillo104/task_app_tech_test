@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'task_status.widget.dart';
 import '../../domain/entities/task.entity.dart';
 
 class TaskItemWidget extends StatelessWidget {
@@ -34,8 +35,17 @@ class TaskItemWidget extends StatelessWidget {
             Icons.arrow_forward_ios,
             size: 14,
           ),
-          subtitle: Text(
-            task.description,
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                task.description,
+              ),
+              TaskStatusWidget(
+                status: task.status,
+              ),
+            ],
           ),
         ),
       ),

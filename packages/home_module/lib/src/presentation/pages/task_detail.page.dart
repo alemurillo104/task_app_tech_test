@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:common_module/common_module.dart';
 import 'package:common_dependency_module/common_dependency_module.dart';
+import '../widgets/task_status.widget.dart';
 import '../../domain/entities/task.entity.dart';
 import '../../domain/enums/task_status.enum.dart';
 import '../blocs/deleteTask/delete_task_bloc.dart';
@@ -99,9 +100,35 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
-                    Text('Nombre : ${widget.task.name}'),
-                    Text('Descripcion : ${widget.task.description}'),
-                    Text('Estado : ${widget.task.status}'),
+                    const Text(
+                      'Nombre',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(widget.task.name),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Descripcion',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(widget.task.description),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Estado',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TaskStatusWidget(
+                      status: widget.task.status,
+                    ),
                   ],
                 ),
               ),
