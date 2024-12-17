@@ -23,4 +23,10 @@ class TaskRepository {
   Future<void> deleteTask(String categoryId) async {
     await _collection.doc(categoryId).delete();
   }
+
+  Future<void> markTaskAsCompleted(String taskId) async {
+    await _collection.doc(taskId).update({
+      'status': 'completed',
+    });
+  }
 }
