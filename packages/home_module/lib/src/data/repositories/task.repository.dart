@@ -10,6 +10,7 @@ class TaskRepository {
     var accounts = snapshot.docs.map((doc) {
       var item = doc.data();
       return TaskModel(
+        id: doc.id,
         name: item['name'],
         description: item['description'],
         status: TaskStatusMapper.toEnum(item['status']),
@@ -17,5 +18,9 @@ class TaskRepository {
     }).toList();
 
     return accounts;
+  }
+
+  Future<void> deleteTask(String categoryId) async {
+    await _collection.doc(categoryId).delete();
   }
 }
