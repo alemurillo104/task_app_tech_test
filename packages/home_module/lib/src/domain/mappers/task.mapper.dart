@@ -10,4 +10,13 @@ class TaskMapper {
       status: model.status,
     );
   }
+
+  static TaskModel mapToModel(Task entity) {
+    return TaskModel(
+      id: entity.id,
+      name: entity.name,
+      description: entity.description,
+      status: entity.status,
+    );
+  }
 }

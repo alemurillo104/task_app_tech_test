@@ -29,4 +29,8 @@ class TaskRepository {
       'status': 'completed',
     });
   }
+
+  Future<void> addTask(TaskModel task) async {
+    await _collection.add(task.toJson());
+  }
 }
