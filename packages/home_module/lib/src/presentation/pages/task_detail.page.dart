@@ -4,15 +4,18 @@ import 'package:common_dependency_module/common_dependency_module.dart';
 import '../../domain/entities/task.entity.dart';
 import '../../domain/enums/task_status.enum.dart';
 import '../blocs/deleteTask/delete_task_bloc.dart';
+import '../blocs/updateTask/update_task_bloc.dart';
 
 class TaskDetailPage extends StatefulWidget {
   final Task task;
   final DeleteTaskBloc deleteTaskBloc;
+  final UpdateTaskBloc updateTaskBloc;
 
   const TaskDetailPage({
     super.key,
     required this.task,
     required this.deleteTaskBloc,
+    required this.updateTaskBloc,
   });
 
   @override
@@ -30,30 +33,58 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DeleteTaskBloc, DeleteTaskState>(
-      bloc: widget.deleteTaskBloc,
-      listener: (context, state) {
-        switch (state.status) {
-          case DeleteTaskStatus.success:
-            loading.hideOverlay();
-            logger.d('se elimino todo okay');
-            Navigator.pop(context);
-            Navigator.pop(context);
-            break;
-          case DeleteTaskStatus.loading:
-            loading.showOverlay();
-            break;
-          case DeleteTaskStatus.failure:
-            loading.hideOverlay();
-            showDialogWidget(
-              context,
-              title: 'Ocurrio un error',
-              description: 'Intentalo nuevamente en un momento.',
-            );
-            break;
-          default:
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<DeleteTaskBloc, DeleteTaskState>(
+          bloc: widget.deleteTaskBloc,
+          listener: (context, state) {
+            switch (state.status) {
+              case DeleteTaskStatus.success:
+                loading.hideOverlay();
+                logger.d('se elimino todo okay');
+                Navigator.pop(context);
+                Navigator.pop(context);
+                break;
+              case DeleteTaskStatus.loading:
+                loading.showOverlay();
+                break;
+              case DeleteTaskStatus.failure:
+                loading.hideOverlay();
+                showDialogWidget(
+                  context,
+                  title: 'Ocurrio un error',
+                  description: 'Intentalo nuevamente en un momento.',
+                );
+                break;
+              default:
+            }
+          },
+        ),
+        BlocListener<UpdateTaskBloc, UpdateTaskState>(
+          bloc: widget.updateTaskBloc,
+          listener: (context, state) {
+            switch (state.status) {
+              case UpdateTaskStatus.success:
+                loading.hideOverlay();
+                logger.d('se actualizo todo okay');
+                Navigator.pop(context);
+                break;
+              case UpdateTaskStatus.loading:
+                loading.showOverlay();
+                break;
+              case UpdateTaskStatus.failure:
+                loading.hideOverlay();
+                showDialogWidget(
+                  context,
+                  title: 'Ocurrio un error',
+                  description: 'Intentalo nuevamente en un momento.',
+                );
+                break;
+              default:
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.task.name),
@@ -79,12 +110,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return const SizedBox();
-                      },
-                    );
+                    widget.updateTaskBloc.add(TaskUpdated(widget.task));
                   },
                   child: Container(
                     height: 50,

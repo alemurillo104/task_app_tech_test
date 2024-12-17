@@ -3,6 +3,7 @@ import 'package:common_dependency_module/common_dependency_module.dart';
 import '../blocs/tasks/tasks_bloc.dart';
 import '../widgets/task_item.widget.dart';
 import '../../../navigation/navigation.dart';
+import '../blocs/updateTask/update_task_bloc.dart';
 import '../blocs/deleteTask/delete_task_bloc.dart';
 
 class TasksPage extends StatefulWidget {
@@ -14,6 +15,8 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends State<TasksPage> {
   final deleteTaskBloc = Modular.get<DeleteTaskBloc>();
+  final updateTaskBloc = Modular.get<UpdateTaskBloc>();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -27,6 +30,9 @@ class _TasksPageState extends State<TasksPage> {
         BlocProvider(
           create: (context) => deleteTaskBloc,
         ),
+        BlocProvider(
+          create: (context) => updateTaskBloc,
+        ),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -38,15 +44,29 @@ class _TasksPageState extends State<TasksPage> {
             ),
           ),
         ),
-        body: BlocListener<DeleteTaskBloc, DeleteTaskState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case DeleteTaskStatus.success:
-                context.read<TasksBloc>().add(const TasksFetched());
-                break;
-              default:
-            }
-          },
+        body: MultiBlocListener(
+          listeners: [
+            BlocListener<DeleteTaskBloc, DeleteTaskState>(
+              listener: (context, state) {
+                switch (state.status) {
+                  case DeleteTaskStatus.success:
+                    context.read<TasksBloc>().add(const TasksFetched());
+                    break;
+                  default:
+                }
+              },
+            ),
+            BlocListener<UpdateTaskBloc, UpdateTaskState>(
+              listener: (context, state) {
+                switch (state.status) {
+                  case UpdateTaskStatus.success:
+                    context.read<TasksBloc>().add(const TasksFetched());
+                    break;
+                  default:
+                }
+              },
+            ),
+          ],
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Column(
@@ -75,6 +95,7 @@ class _TasksPageState extends State<TasksPage> {
                                           arguments: {
                                             'task': state.tasks[index],
                                             'deleteTaskBloc': deleteTaskBloc,
+                                            'updateTaskBloc': updateTaskBloc,
                                           },
                                         );
                                       },
