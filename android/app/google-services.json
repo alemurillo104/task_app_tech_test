@@ -1,0 +1,40 @@
+{
+    "project_info": {
+      "project_number": "496528477808",
+      "firebase_url": "https://mi-proyecto-18c31.firebaseio.com",
+      "project_id": "mi-proyecto-18c31",
+      "storage_bucket": "mi-proyecto-18c31.firebasestorage.app"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:496528477808:android:bbd8f98a66f5b868f3aeb5",
+          "android_client_info": {
+            "package_name": "com.example.taskAppTechTest"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "496528477808-nfdqpm9nv46r03mrk8g27de129p3ufbi.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyDzdu6LWOA8b-wiooshtHGCsweZ-ive7kg"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "496528477808-nfdqpm9nv46r03mrk8g27de129p3ufbi.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

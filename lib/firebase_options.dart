@@ -8,13 +8,13 @@ import 'package:common_dependency_module/common_dependency_module.dart';
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
-/// ```dart
+/// dart
 /// import 'firebase_options.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
-/// ```
+///
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -61,5 +58,14 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://mi-proyecto-18c31.firebaseio.com',
     storageBucket: 'mi-proyecto-18c31.firebasestorage.app',
     iosBundleId: 'com.example.taskAppTechTest',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyDzdu6LWOA8b-wiooshtHGCsweZ-ive7kg',
+    appId: '1:496528477808:android:bbd8f98a66f5b868f3aeb5',
+    messagingSenderId: '496528477808',
+    projectId: 'mi-proyecto-18c31',
+    databaseURL: 'https://mi-proyecto-18c31.firebaseio.com',
+    storageBucket: 'mi-proyecto-18c31.firebasestorage.app',
   );
 }
