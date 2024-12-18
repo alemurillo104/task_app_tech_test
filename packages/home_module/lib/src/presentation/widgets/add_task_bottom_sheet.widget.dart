@@ -159,9 +159,18 @@ class _AddTaskBottomSheetWidgetState extends State<AddTaskBottomSheetWidget> {
                           borderRadius: BorderRadius.circular(20),
                           color: !_disableButton
                               ? Colors.black12
-                              : Colors.blue.shade100,
+                              : Colors.deepPurpleAccent,
                         ),
-                        child: const Center(child: Text('Agregar nueva tarea')),
+                        child: Center(
+                          child: Text(
+                            'Agregar nueva tarea',
+                            style: TextStyle(
+                              color:
+                                  !_disableButton ? Colors.black : Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(
