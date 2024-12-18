@@ -12,49 +12,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   final TaskRepository repository;
   TasksBloc(this.repository) : super(TasksState()) {
     on<TasksFetched>(_getTasks);
-    on<TasksFiltered>(_getTasksByStatus);
-    on<ResetTasksList>(_resetTasksList);
-  }
-
-  FutureOr<void> _resetTasksList(
-    ResetTasksList event,
-    Emitter<TasksState> emit,
-  ) async {
-    emit(TasksState());
-    add(const TasksFetched());
-  }
-
-  FutureOr<void> _getTasksByStatus(
-    TasksFiltered event,
-    Emitter<TasksState> emit,
-  ) async {
-    try {
-      emit(state.copyWith(status: TasksStatus.loading));
-
-      final tasksResponse = await repository.getTasks();
-      final tasks = tasksResponse
-          .map(
-            (task) => TaskMapper.mapToEntity(task),
-          )
-          .toList();
-      final filteredTasks = tasks
-          .where(
-            (task) => task.status == event.status,
-          )
-          .toList();
-
-      return emit(
-        state.copyWith(
-          status: TasksStatus.filterMode,
-          filteredMode: true,
-          tasks: tasks,
-          currentTaskStatusFiltered: event.status,
-          filteredtasks: filteredTasks,
-        ),
-      );
-    } catch (e) {
-      emit(state.copyWith(status: TasksStatus.failure));
-    }
   }
 
   FutureOr<void> _getTasks(
@@ -62,16 +19,35 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     Emitter<TasksState> emit,
   ) async {
     try {
-      emit(state.copyWith(status: TasksStatus.loading));
-
       final tasksResponse = await repository.getTasks();
       final tasks = tasksResponse
           .map(
             (task) => TaskMapper.mapToEntity(task),
           )
           .toList();
-
-      emit(state.copyWith(status: TasksStatus.success, tasks: tasks));
+      if (event.status != null && event.status != TaskStatus.all) {
+        final filteredTasks = tasks
+            .where(
+              (task) => task.status == event.status,
+            )
+            .toList();
+        return emit(
+          state.copyWith(
+            status: TasksStatus.success,
+            tasks: tasks,
+            currentTaskStatusFiltered: event.status,
+            filteredtasks: filteredTasks,
+          ),
+        );
+      }
+      return emit(
+        state.copyWith(
+          status: TasksStatus.success,
+          tasks: tasks,
+          currentTaskStatusFiltered: event.status,
+          filteredtasks: tasks,
+        ),
+      );
     } catch (e) {
       emit(state.copyWith(status: TasksStatus.failure));
     }

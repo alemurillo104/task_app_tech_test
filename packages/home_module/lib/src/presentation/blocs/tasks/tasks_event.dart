@@ -5,15 +5,8 @@ abstract class TasksEvent {
 }
 
 final class TasksFetched extends TasksEvent {
-  const TasksFetched();
+  final TaskStatus? status;
+
+  const TasksFetched({this.status});
 }
 
-final class TasksFiltered extends TasksEvent {
-  final TaskStatus status;
-
-  const TasksFiltered(this.status);
-}
-
-final class ResetTasksList extends TasksEvent {
-  const ResetTasksList();
-}
