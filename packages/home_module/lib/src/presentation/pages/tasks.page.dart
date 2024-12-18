@@ -61,6 +61,7 @@ class _TasksPageState extends State<TasksPage> {
             ),
           ),
         ),
+        resizeToAvoidBottomInset: true,
         body: MultiBlocListener(
           listeners: [
             BlocListener<DeleteTaskBloc, DeleteTaskState>(
@@ -169,9 +170,15 @@ class _TasksPageState extends State<TasksPage> {
           onPressed: () {
             showModalBottomSheet(
               context: context,
+              isScrollControlled: true,
               builder: (context) {
-                return AddTaskBottomSheetWidget(
-                  addTaskBloc: addTaskBloc,
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: AddTaskBottomSheetWidget(
+                    addTaskBloc: addTaskBloc,
+                  ),
                 );
               },
             );
