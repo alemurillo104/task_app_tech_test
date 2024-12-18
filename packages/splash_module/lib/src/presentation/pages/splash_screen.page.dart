@@ -23,10 +23,42 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.deepPurpleAccent.shade200,
       body: Center(
-        child: Text(
-          'Splash page',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(25),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(70),
+                color: const Color.fromARGB(255, 197, 164, 254),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 5,
+                    offset: Offset(2, 2),
+                    color: Colors.black38,
+                    spreadRadius: 0.2,
+                  )
+                ],
+              ),
+              child: Image.asset(
+                'assets/icons/list.png',
+                height: 150,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Task App',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );
