@@ -5,8 +5,10 @@ class TaskStatusMapper {
     switch (value) {
       case 'pending':
         return TaskStatus.pending;
-      default:
+      case 'completed':
         return TaskStatus.completed;
+      default:
+        return TaskStatus.all;
     }
   }
 
@@ -14,8 +16,10 @@ class TaskStatusMapper {
     switch (value) {
       case 'Pendiente':
         return TaskStatus.pending;
-      default:
+      case 'Completado':
         return TaskStatus.completed;
+      default:
+        return TaskStatus.all;
     }
   }
 
@@ -23,8 +27,10 @@ class TaskStatusMapper {
     switch (value) {
       case TaskStatus.pending:
         return 'pending';
-      default:
+      case TaskStatus.completed:
         return 'completed';
+      default:
+        return 'all';
     }
   }
 
@@ -32,8 +38,10 @@ class TaskStatusMapper {
     switch (value) {
       case TaskStatus.pending:
         return 'Pendiente';
-      default:
+      case TaskStatus.completed:
         return 'Completado';
+      default:
+        return 'Todos';
     }
   }
 }
