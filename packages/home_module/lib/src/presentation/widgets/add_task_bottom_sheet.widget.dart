@@ -152,6 +152,7 @@ class _AddTaskBottomSheetWidgetState extends State<AddTaskBottomSheetWidget> {
                                   ),
                                 ),
                               );
+                              FocusManager.instance.primaryFocus?.unfocus();
                             },
                       child: Container(
                         height: 50,
